@@ -2,6 +2,7 @@
 // INCLUDES
 //////////////////////////////////////////////////////
 const express = require('express');
+const bodyParser = require('body-parser'); //Add BodyParse
 
 //////////////////////////////////////////////////////
 // CREATE APP
@@ -9,6 +10,13 @@ const express = require('express');
 const app = express();
 
 //////////////////////////////////////////////////////
+
+// Middleware to parse JSON
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+
+//////////////////////////////////////////////////////
+
 // USES
 //////////////////////////////////////////////////////
 app.use(express.json());
@@ -18,7 +26,12 @@ app.use(express.urlencoded({extended:false}));
 // SETUP ROUTES
 //////////////////////////////////////////////////////
 const mainRoutes = require('./routes/mainRoutes');
+const res = require('express/lib/response');
 app.use("/", mainRoutes);
+
+app.get('/', (req, res) => {
+  res.send('I am alive');
+})
 
 //////////////////////////////////////////////////////
 // EXPORT APP
